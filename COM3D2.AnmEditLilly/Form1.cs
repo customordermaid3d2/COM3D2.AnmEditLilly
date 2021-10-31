@@ -60,7 +60,7 @@ namespace COM3D2.AnmEditLilly
                 return;
             }
             anmFile = AnmFile.fromFile(fname);
-            anmFileLilly = AnmFileLilly.fromFile(fname);
+            
 
             this.currentFilename = fname;
 
@@ -80,8 +80,10 @@ namespace COM3D2.AnmEditLilly
 
             stringBuilder.Clear();
 
-
+            
             #region Lilly개조판
+
+            anmFileLilly = AnmFileLilly.fromFile(fname);
 
             stringBuilder.AppendLine(anmFile.format.ToString());
 
@@ -92,6 +94,8 @@ namespace COM3D2.AnmEditLilly
 
             #endregion
 
+            /*
+            */
         }
 
         string outFileDialog()

@@ -116,14 +116,12 @@
             // 
             // toolStripTextBoxTop0
             // 
-            this.toolStripTextBoxTop0.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.toolStripTextBoxTop0.Name = "toolStripTextBoxTop0";
             this.toolStripTextBoxTop0.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBoxTop0.Text = "tan1";
             // 
             // toolStripTextBoxTop1
             // 
-            this.toolStripTextBoxTop1.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.toolStripTextBoxTop1.Name = "toolStripTextBoxTop1";
             this.toolStripTextBoxTop1.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBoxTop1.Text = "tan1";
@@ -132,7 +130,6 @@
             // 
             // toolStripTextBoxTop2
             // 
-            this.toolStripTextBoxTop2.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.toolStripTextBoxTop2.Name = "toolStripTextBoxTop2";
             this.toolStripTextBoxTop2.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBoxTop2.Text = "tan2";
@@ -161,13 +158,11 @@
             // 
             // toolStripTextBoxBot0
             // 
-            this.toolStripTextBoxBot0.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.toolStripTextBoxBot0.Name = "toolStripTextBoxBot0";
             this.toolStripTextBoxBot0.Size = new System.Drawing.Size(100, 23);
             // 
             // toolStripTextBoxBot1
             // 
-            this.toolStripTextBoxBot1.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.toolStripTextBoxBot1.Name = "toolStripTextBoxBot1";
             this.toolStripTextBoxBot1.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBoxBot1.Text = "tan1";
@@ -176,7 +171,6 @@
             // 
             // toolStripTextBoxBot2
             // 
-            this.toolStripTextBoxBot2.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.toolStripTextBoxBot2.Name = "toolStripTextBoxBot2";
             this.toolStripTextBoxBot2.Size = new System.Drawing.Size(100, 23);
             this.toolStripTextBoxBot2.Text = "tan2";
@@ -211,7 +205,6 @@
             this.MainMenuStrip = this.menuStrip2;
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.splitContainer1.Panel1.ResumeLayout(false);

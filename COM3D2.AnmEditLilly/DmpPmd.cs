@@ -16,12 +16,13 @@ namespace COM3D2.AnmEditLilly
 		/// <param name="fname"></param>
 		/// <param name="tw"></param>
 		/// <returns></returns>
+
 		public static int Dmp(string fname, TextWriter tw)
 		{
 			AnmFile anmFile = AnmFile.fromFile(fname);
 			if (anmFile == null)
 			{
-				DmpPmd.error = "ファイルの読見込みに失敗しました.파일을 읽을 수 없습니다.";
+				DmpPmd.error = "ファイルの読見込みに失敗しました";
 				return -1;
 			}
 			SortedSet<int> timeSet = anmFile.getTimeSet();
@@ -72,6 +73,8 @@ namespace COM3D2.AnmEditLilly
 			}
 			return 0;
 		}
+
+		/**/
 
 		public static string Dmp(AnmFile anmFile)
 		{
@@ -210,9 +213,6 @@ namespace COM3D2.AnmEditLilly
 			return 0;
 		}
 
-		private static Regex reg1 = new Regex("Filename:.+?\\r?\\nFormat:(\\d+)(?:\\s+MuneL有効:([xo])\\s+MuneR有効:([xo]))?\\r?\\n", RegexOptions.Compiled | RegexOptions.Singleline);
-
-		private static Regex reg2 = new Regex("\\G\\[(?<bone>.+?)\\]\\r?\\n(?:(?<time>\\d{8}|\\s{8})\\s+(?<type>" + string.Join("|", DmpPmd.types) + ")(?:\\s+(?<val>[-\\d\\.]+)){3}\\r?\\n)*", RegexOptions.Compiled | RegexOptions.Singleline);
 
 		public static int Pmd2(string text, string filename)
 		{
@@ -301,6 +301,11 @@ namespace COM3D2.AnmEditLilly
 			" z"
 		};
 
-		
+		// 이건 반드시 맨 끝에 있어야함. 대체 왜??
+		public static Regex reg1 = new Regex("Filename:.+?\\r?\\nFormat:(\\d+)(?:\\s+MuneL有効:([xo])\\s+MuneR有効:([xo]))?\\r?\\n", RegexOptions.Compiled | RegexOptions.Singleline);
+
+		public static Regex reg2 = new Regex("\\G\\[(?<bone>.+?)\\]\\r?\\n(?:(?<time>\\d{8}|\\s{8})\\s+(?<type>" + string.Join("|", DmpPmd.types) + ")(?:\\s+(?<val>[-\\d\\.]+)){3}\\r?\\n)*", RegexOptions.Compiled | RegexOptions.Singleline);
 	}
+
+
 }
