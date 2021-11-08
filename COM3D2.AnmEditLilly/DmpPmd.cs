@@ -216,9 +216,13 @@ namespace COM3D2.AnmEditLilly
 
 		public static int Pmd2(string text, string filename)
 		{
-			Match match = new Regex(@"^\d{4}$").Match(text);
+			// (\d+)(?:\s+MuneL有効:([xo])\s+MuneR有効:([xo]))?\r?\n
+			Match match = new Regex(@"(\d+)(?:\s+MuneL有効:([xo])\s+MuneR有効:([xo]))?\r?\n", RegexOptions.Compiled | RegexOptions.Singleline).Match(text);
 
-			Debug.WriteLine("Pmd2 : " + match.Groups[0].Value);
+			//Debug.WriteLine("Pmd2 : " + match.Groups[0].Value);
+			//Debug.WriteLine("Pmd2 : " + match.Groups[1].Value);
+			//Debug.WriteLine("Pmd2 : " + match.Groups[2].Value);
+			//Debug.WriteLine("Pmd2 : " + match.Groups[3].Value);
 
 			if (!match.Success)
 			{
@@ -226,29 +230,63 @@ namespace COM3D2.AnmEditLilly
 				return -1;
 			}
 
-			return -1;
-
-			AnmFile anmFile = new AnmFile();
+			AnmFileLilly anmFile = new AnmFileLilly();
 			anmFile.format = int.Parse(match.Groups[1].Value);
 			anmFile.muneLR[0] = ((byte)((match.Groups[2].Success && match.Groups[2].Value == "o") ? 1 : 0));
 			anmFile.muneLR[1] = ((byte)((match.Groups[3].Success && match.Groups[3].Value == "o") ? 1 : 0));
 
+			match = new Regex(@"(?<bone>.+?)\t(?<type>.+?)\t(?<time>[-\d\.]+?)(\s+(?<val>[-\d\.]+?)){3}\r?\n"
+				, RegexOptions.Compiled | RegexOptions.Singleline)
+				.Match(text, match.Groups[0].Value.Length);
 
-
-			match = DmpPmd.reg2.Match(text, match.Groups[0].Value.Length);
 			while (match.Success)
 			{
-				AnmBoneEntry anmBoneEntry = new AnmBoneEntry(match.Groups["bone"].Value);
-				anmFile.Add(anmBoneEntry);
-				AnmFrameList[] array = new AnmFrameList[]
+				Debug.WriteLine("item : " + match.Groups.Count);
+				//for (int i = 0; i < match.Groups.Count; i++)
+				//{
+				//	Debug.WriteLine("sub , " + i +" : " + match.Groups[i].Value);
+				//}
+				// Bip01	qx	0.0000	    -0.560985600	     0.000000000	     0.000000000
+				for (int i = 0; i < match.Groups["bone"].Captures.Count; i++)
 				{
-					new AnmFrameList(100),
-					new AnmFrameList(101),
-					new AnmFrameList(102),
-					new AnmFrameList(103),
-					new AnmFrameList(104),
-					new AnmFrameList(105),
-					new AnmFrameList(106)
+					Debug.WriteLine("sub1 , " + i + " : " + match.Groups["bone"].Captures[i].Value);
+				}
+				for (int i = 0; i < match.Groups["type"].Captures.Count; i++)
+				{
+					Debug.WriteLine("sub2 , " + i + " : " + match.Groups["type"].Captures[i].Value);
+				}
+				for (int i = 0; i < match.Groups["time"].Captures.Count; i++)
+				{
+					Debug.WriteLine("sub3 , " + i + " : " + match.Groups["time"].Captures[i].Value);
+				}
+				for (int i = 0; i < match.Groups["val"].Captures.Count; i++)
+				{
+					Debug.WriteLine("sub4 , " + i + " : " + match.Groups["val"].Captures[i].Value);
+				}
+				match = match.NextMatch();
+			}
+
+			//match = new Regex(@"\G(?<bone>.+?)\r?\n(?:(?<time>\d{8}|\s{8})\s+(?<type>" 
+			//	+ string.Join("|", DmpPmd.types) 
+			//	+ @")(?:\s+(?<val>[-\d\.]+)){3}\r?\n)*"
+			//	, RegexOptions.Compiled | RegexOptions.Singleline)
+			//	.Match(text, match.Groups[0].Value.Length);
+
+			return -1;
+
+			while (match.Success)
+			{
+				AnmBoneEntryLilly anmBoneEntry = new AnmBoneEntryLilly(match.Groups["bone"].Value);
+				anmFile.Add(anmBoneEntry.boneName, anmBoneEntry);
+				AnmFrameListLilly[] array = new AnmFrameListLilly[]
+				{
+					new AnmFrameListLilly(100),
+					new AnmFrameListLilly(101),
+					new AnmFrameListLilly(102),
+					new AnmFrameListLilly(103),
+					new AnmFrameListLilly(104),
+					new AnmFrameListLilly(105),
+					new AnmFrameListLilly(106)
 				};
 				int num = 0;
 				for (int i = 0; i < match.Groups["time"].Captures.Count; i++)
@@ -264,13 +302,13 @@ namespace COM3D2.AnmEditLilly
 					anmFrame.tan1 = float.Parse(match.Groups["val"].Captures[i * 3 + 1].Value);
 					anmFrame.tan2 = float.Parse(match.Groups["val"].Captures[i * 3 + 2].Value);
 					int num2 = DmpPmd.type2int(match.Groups["type"].Captures[i].Value);
-					array[num2 - 100].Add(anmFrame);
+					array[num2 - 100].Add(anmFrame.time, anmFrame);
 				}
-				foreach (AnmFrameList anmFrameList in array)
+				foreach (AnmFrameListLilly anmFrameList in array)
 				{
 					if (anmFrameList.Count > 0)
 					{
-						anmBoneEntry.Add(anmFrameList);
+						anmBoneEntry.Add(anmFrameList.type,anmFrameList);
 					}
 				}
 				match = match.NextMatch();
